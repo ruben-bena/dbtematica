@@ -3,43 +3,21 @@ import 'package:flutter/material.dart';
 import '../../domain/models/selected_domain_item.dart';
 import '../../services/category_items_service.dart';
 
-class LeftPanel extends StatefulWidget {
+class LeftPanel extends StatelessWidget {
   const LeftPanel({
     super.key,
+    required this.selectedCategory,
+    required this.itemsFuture,
+    required this.selectedItem,
+    required this.onCategoryChanged,
     required this.onItemSelected,
   });
 
+  final CategoryType selectedCategory;
+  final Future<List<SelectedDomainItem>> itemsFuture;
+  final SelectedDomainItem? selectedItem;
+  final ValueChanged<CategoryType> onCategoryChanged;
   final ValueChanged<SelectedDomainItem?> onItemSelected;
-
-  @override
-  State<LeftPanel> createState() => _LeftPanelState();
-}
-
-class _LeftPanelState extends State<LeftPanel> {
-  static const CategoryItemsService _service = CategoryItemsService();
-
-  late CategoryType _selectedCategory;
-  late Future<List<SelectedDomainItem>> _itemsFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedCategory = CategoryType.characters;
-    _itemsFuture = _service.loadItems(_selectedCategory);
-  }
-
-  void _onCategoryChanged(CategoryType? category) {
-    if (category == null) {
-      return;
-    }
-
-    setState(() {
-      _selectedCategory = category;
-      _itemsFuture = _service.loadItems(category);
-    });
-
-    widget.onItemSelected(null);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +28,13 @@ class _LeftPanelState extends State<LeftPanel> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             DropdownButton<CategoryType>(
-              value: _selectedCategory,
+              value: selectedCategory,
               isExpanded: true,
-              onChanged: _onCategoryChanged,
+              onChanged: (category) {
+                if (category != null) {
+                  onCategoryChanged(category);
+                }
+              },
               items: const [
                 DropdownMenuItem(
                   value: CategoryType.characters,
@@ -71,7 +53,7 @@ class _LeftPanelState extends State<LeftPanel> {
             const SizedBox(height: 16),
             Expanded(
               child: FutureBuilder<List<SelectedDomainItem>>(
-                future: _itemsFuture,
+                future: itemsFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -101,9 +83,14 @@ class _LeftPanelState extends State<LeftPanel> {
                     separatorBuilder: (_, _) => const Divider(height: 1),
                     itemBuilder: (context, index) {
                       final item = items[index];
+                      final isSelected = selectedItem != null &&
+                          selectedItem.runtimeType == item.runtimeType &&
+                          selectedItem!.name == item.name;
+
                       return ListTile(
                         contentPadding: EdgeInsets.zero,
-                        onTap: () => widget.onItemSelected(item),
+                        selected: isSelected,
+                        onTap: () => onItemSelected(item),
                         leading: ClipRRect(
                           borderRadius: BorderRadius.circular(6),
                           child: Image.asset(
