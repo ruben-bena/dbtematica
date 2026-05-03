@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Miguel de Cervantes",
+    "year_born": 1547,
+    "year_dead": 1616,
+    "country": "España",
+    "color": "brown",
+    "image": "miguel_de_cervantes.png"
+  },
+  {
+    "name": "Leo Tolstoy",
+    "year_born": 1828,
+    "year_dead": 1910,
+    "country": "Rusia",
+    "color": "red",
+    "image": "leo_tolstoy.png"
+  },
+  {
+    "name": "Ernest Hemingway",
+    "year_born": 1899,
+    "year_dead": 1961,
+    "country": "Estados Unidos",
+    "color": "blue",
+    "image": "ernest_hemingway.png"
+  },
+  {
+    "name": "J.R.R. Tolkien",
+    "year_born": 1892,
+    "year_dead": 1973,
+    "country": "Reino Unido",
+    "color": "gold",
+    "image": "jrr_tolkien.png"
+  },
+  {
+    "name": "Natsume Sōseki",
+    "year_born": 1867,
+    "year_dead": 1916,
+    "country": "Japón",
+    "color": "white",
+    "image": "natsume_soseki.png"
+  },
+  {
+    "name": "William Shakespeare",
+    "year_born": 1564,
+    "year_dead": 1616,
+    "country": "Reino Unido",
+    "color": "black",
+    "image": "william_shakespeare.png"
+  },
+  {
+    "name": "Pedro Calderón de la Barca",
+    "year_born": 1600,
+    "year_dead": 1681,
+    "country": "España",
+    "color": "purple",
+    "image": "pedro_calderon_de_la_barca.png"
+  },
+  {
+    "name": "Yukio Mishima",
+    "year_born": 1925,
+    "year_dead": 1970,
+    "country": "Japón",
+    "color": "pink",
+    "image": "yukio_mishima.png"
+  },
+  {
+    "name": "Osamu Dazai",
+    "year_born": 1909,
+    "year_dead": 1948,
+    "country": "Japón",
+    "color": "gray",
+    "image": "osamu_dazai.png"
+  },
+  {
+    "name": "Johann Wolfgang von Goethe",
+    "year_born": 1749,
+    "year_dead": 1832,
+    "country": "Alemania",
+    "color": "yellow",
+    "image": "johann_wolfgang_von_goethe.png"
+  },
+  {
+    "name": "Carlos Ble",
+    "year_born": 1978,
+    "year_dead": null,
+    "country": "España",
+    "color": "green",
+    "image": "carlos_ble.png"
+  },
+  {
+    "name": "Robert C. Martin",
+    "year_born": 1952,
+    "year_dead": null,
+    "country": "Estados Unidos",
+    "color": "silver",
+    "image": "robert_c_martin.png"
+  },
+  {
+    "name": "Michel de Montaigne",
+    "year_born": 1533,
+    "year_dead": 1592,
+    "country": "Francia",
+    "color": "beige",
+    "image": "michel_de_montaigne.png"
+  },
+  {
+    "name": "Leopoldo Alas 'Clarín'",
+    "year_born": 1852,
+    "year_dead": 1901,
+    "country": "España",
+    "color": "maroon",
+    "image": "leopoldo_alas_clarin.png"
+  },
+  {
+    "name": "Fyodor Dostoevsky",
+    "year_born": 1821,
+    "year_dead": 1881,
+    "country": "Rusia",
+    "color": "darkred",
+    "image": "fyodor_dostoevsky.png"
+  }
+]

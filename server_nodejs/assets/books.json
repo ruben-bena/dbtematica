@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Don Quijote de la Mancha",
+    "year": 1605,
+    "author": "Miguel de Cervantes",
+    "plot": "Las aventuras de un hidalgo que, tras leer demasiados libros de caballería, decide convertirse en caballero andante para deshacer agravios.",
+    "color": "brown",
+    "image": "don_quijote.png"
+  },
+  {
+    "name": "Anna Karenina",
+    "year": 1877,
+    "author": "Leo Tolstoy",
+    "plot": "Una tragedia que narra el romance extramatrimonial de la aristócrata Anna Karenina y su búsqueda de la felicidad en la rígida sociedad rusa.",
+    "color": "red",
+    "image": "anna_karenina.png"
+  },
+  {
+    "name": "El viejo y el mar",
+    "year": 1952,
+    "author": "Ernest Hemingway",
+    "plot": "La lucha épica entre un viejo pescador cubano y un enorme marlín en las aguas del Gulf Stream.",
+    "color": "blue",
+    "image": "el_viejo_y_el_mar.png"
+  },
+  {
+    "name": "El señor de los anillos",
+    "year": 1954,
+    "author": "J.R.R. Tolkien",
+    "plot": "La misión de un grupo de diversos seres para destruir un anillo de poder y derrotar al Señor Oscuro Sauron.",
+    "color": "gold",
+    "image": "el_senor_de_los_anillos.png"
+  },
+  {
+    "name": "Kokoro",
+    "year": 1914,
+    "author": "Natsume Sōseki",
+    "plot": "Una exploración de la transición cultural de Japón a través de la relación entre un joven y su mentor, a quien llama 'Sensei'.",
+    "color": "white",
+    "image": "kokoro.png"
+  },
+  {
+    "name": "Macbeth",
+    "year": 1606,
+    "author": "William Shakespeare",
+    "plot": "Un general escocés recibe una profecía de tres brujas y, consumido por la ambición, asesina al rey para ocupar su lugar.",
+    "color": "black",
+    "image": "macbeth.png"
+  },
+  {
+    "name": "La vida es sueño",
+    "year": 1635,
+    "author": "Pedro Calderón de la Barca",
+    "plot": "El príncipe Segismundo es encerrado por su padre debido a una profecía, cuestionando la naturaleza de la realidad y el libre albedrío.",
+    "color": "purple",
+    "image": "la_vida_es_sueno.png"
+  },
+  {
+    "name": "Confesiones de una máscara",
+    "year": 1949,
+    "author": "Yukio Mishima",
+    "plot": "Relato autobiográfico sobre un joven que debe ocultar su verdadera naturaleza y deseos detrás de una fachada social en el Japón de la posguerra.",
+    "color": "pink",
+    "image": "confesiones_de_una_mascara.png"
+  },
+  {
+    "name": "Indigno de ser humano",
+    "year": 1948,
+    "author": "Osamu Dazai",
+    "plot": "La crónica del aislamiento y la alienación de un hombre que se siente incapaz de comprender o pertenecer a la sociedad humana.",
+    "color": "gray",
+    "image": "indigno_de_ser_humano.png"
+  },
+  {
+    "name": "Las penas del joven Werther",
+    "year": 1774,
+    "author": "Johann Wolfgang von Goethe",
+    "plot": "Una novela epistolar que detalla el amor no correspondido y el sufrimiento emocional de un joven artista.",
+    "color": "yellow",
+    "image": "las_penas_del_joven_werther.png"
+  },
+  {
+    "name": "Código sostenible",
+    "year": 2019,
+    "author": "Carlos Ble",
+    "plot": "Una guía sobre principios de ingeniería de software enfocada en crear código mantenible, limpio y escalable a largo plazo.",
+    "color": "green",
+    "image": "codigo_sostenible.png"
+  },
+  {
+    "name": "Código limpio",
+    "year": 2008,
+    "author": "Robert C. Martin",
+    "plot": "Presenta mejores prácticas y paradigmas para escribir software de alta calidad y facilitar el trabajo en equipo.",
+    "color": "silver",
+    "image": "codigo_limpio.png"
+  },
+  {
+    "name": "Ensayos de Montaigne",
+    "year": 1580,
+    "author": "Michel de Montaigne",
+    "plot": "Colección de reflexiones personales y filosóficas que exploran la condición humana, la educación y la moralidad.",
+    "color": "beige",
+    "image": "ensayos_de_montaigne.png"
+  },
+  {
+    "name": "La Regenta",
+    "year": 1884,
+    "author": "Leopoldo Alas 'Clarín'",
+    "plot": "Un retrato crítico de la sociedad de Vetusta a través del conflicto moral y amoroso de Ana Ozores.",
+    "color": "maroon",
+    "image": "la_regenta.png"
+  },
+  {
+    "name": "Crimen y castigo",
+    "year": 1866,
+    "author": "Fyodor Dostoevsky",
+    "plot": "Raskólnikov, un estudiante pobre, comete un asesinato para probar su teoría de superioridad y luego enfrenta el tormento de su conciencia.",
+    "color": "darkred",
+    "image": "crimen_y_castigo.png"
+  }
+]
