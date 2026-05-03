@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'config/app_config.dart';
 import 'domain/models/selected_domain_item.dart';
 import 'services/category_items_service.dart';
 import 'ui/widgets/left_panel.dart';
@@ -35,7 +36,7 @@ class MainSplitView extends StatefulWidget {
 }
 
 class _MainSplitViewState extends State<MainSplitView> {
-  final CategoryItemsService _service = CategoryItemsService();
+  final CategoryItemsService _service = CategoryItemsService(baseUrl: AppConfig.serverBaseUrl);
   static const _desktopOuterPadding = 24.0;
   static const _desktopPanelsGap = 24.0;
 
