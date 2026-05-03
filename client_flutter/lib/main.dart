@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'domain/models/selected_domain_item.dart';
 import 'ui/widgets/left_panel.dart';
 import 'ui/widgets/right_panel.dart';
 
@@ -25,8 +26,21 @@ class DbTematicaApp extends StatelessWidget {
   }
 }
 
-class MainSplitView extends StatelessWidget {
+class MainSplitView extends StatefulWidget {
   const MainSplitView({super.key});
+
+  @override
+  State<MainSplitView> createState() => _MainSplitViewState();
+}
+
+class _MainSplitViewState extends State<MainSplitView> {
+  SelectedDomainItem? _selectedItem;
+
+  void _onItemSelected(SelectedDomainItem? item) {
+    setState(() {
+      _selectedItem = item;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +53,12 @@ class MainSplitView extends StatelessWidget {
           children: [
             Expanded(
               flex: 1,
-              child: const LeftPanel(),
+              child: LeftPanel(onItemSelected: _onItemSelected),
             ),
             const SizedBox(width: 24),
             Expanded(
               flex: 3,
-              child: const RightPanel(),
+              child: RightPanel(selectedItem: _selectedItem),
             ),
           ],
         ),

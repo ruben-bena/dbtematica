@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../../domain/models/selected_domain_item.dart';
 import '../../services/category_items_service.dart';
 
 class LeftPanel extends StatefulWidget {
-  const LeftPanel({super.key});
+  const LeftPanel({
+    super.key,
+    required this.onItemSelected,
+  });
+
+  final ValueChanged<SelectedDomainItem?> onItemSelected;
 
   @override
   State<LeftPanel> createState() => _LeftPanelState();
@@ -13,7 +19,7 @@ class _LeftPanelState extends State<LeftPanel> {
   static const CategoryItemsService _service = CategoryItemsService();
 
   late CategoryType _selectedCategory;
-  late Future<List<CategoryListItem>> _itemsFuture;
+  late Future<List<SelectedDomainItem>> _itemsFuture;
 
   @override
   void initState() {
@@ -31,6 +37,8 @@ class _LeftPanelState extends State<LeftPanel> {
       _selectedCategory = category;
       _itemsFuture = _service.loadItems(category);
     });
+
+    widget.onItemSelected(null);
   }
 
   @override
@@ -62,7 +70,7 @@ class _LeftPanelState extends State<LeftPanel> {
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: FutureBuilder<List<CategoryListItem>>(
+              child: FutureBuilder<List<SelectedDomainItem>>(
                 future: _itemsFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -78,7 +86,7 @@ class _LeftPanelState extends State<LeftPanel> {
                     );
                   }
 
-                  final items = snapshot.data ?? <CategoryListItem>[];
+                  final items = snapshot.data ?? <SelectedDomainItem>[];
                   if (items.isEmpty) {
                     return Center(
                       child: Text(
@@ -95,6 +103,7 @@ class _LeftPanelState extends State<LeftPanel> {
                       final item = items[index];
                       return ListTile(
                         contentPadding: EdgeInsets.zero,
+                        onTap: () => widget.onItemSelected(item),
                         leading: ClipRRect(
                           borderRadius: BorderRadius.circular(6),
                           child: Image.asset(
