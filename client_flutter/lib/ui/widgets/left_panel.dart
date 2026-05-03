@@ -46,7 +46,7 @@ class LeftPanel extends StatelessWidget {
                   if (snapshot.hasError) {
                     return Center(
                       child: Text(
-                        'Error cargando elementos',
+                        'Error cargando la categoría',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     );
@@ -114,21 +114,21 @@ class _CategoryButtons extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _CategoryButton(
-          text: CategoryType.characters.label,
-          selected: selectedCategory == CategoryType.characters,
-          onPressed: () => onCategoryChanged(CategoryType.characters),
+          text: CategoryType.authors.label,
+          selected: selectedCategory == CategoryType.authors,
+          onPressed: () => onCategoryChanged(CategoryType.authors),
         ),
         const SizedBox(height: 8),
         _CategoryButton(
-          text: CategoryType.consoles.label,
-          selected: selectedCategory == CategoryType.consoles,
-          onPressed: () => onCategoryChanged(CategoryType.consoles),
+          text: CategoryType.books.label,
+          selected: selectedCategory == CategoryType.books,
+          onPressed: () => onCategoryChanged(CategoryType.books),
         ),
         const SizedBox(height: 8),
         _CategoryButton(
-          text: CategoryType.games.label,
-          selected: selectedCategory == CategoryType.games,
-          onPressed: () => onCategoryChanged(CategoryType.games),
+          text: CategoryType.nobelCountries.label,
+          selected: selectedCategory == CategoryType.nobelCountries,
+          onPressed: () => onCategoryChanged(CategoryType.nobelCountries),
         ),
       ],
     );

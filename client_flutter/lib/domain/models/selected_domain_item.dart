@@ -1,6 +1,6 @@
-import 'character.dart';
-import 'console.dart';
-import 'game.dart';
+import 'author.dart';
+import 'book.dart';
+import 'nobel_country.dart';
 
 sealed class SelectedDomainItem {
   String get name;
@@ -8,65 +8,67 @@ sealed class SelectedDomainItem {
   Map<String, String> get fields;
 }
 
-class SelectedCharacterItem extends SelectedDomainItem {
-  SelectedCharacterItem(this.character);
+class SelectedAuthorItem extends SelectedDomainItem {
+  SelectedAuthorItem(this.author);
 
-  final Character character;
-
-  @override
-  String get name => character.name;
+  final Author author;
 
   @override
-  String get image => character.image;
+  String get name => author.name;
+
+  @override
+  String get image => author.image;
 
   @override
   Map<String, String> get fields => {
-        'name': character.name,
-        'image': character.image,
-        'color': character.color,
-        'game': character.game,
+        'name': author.name,
+        'year_born': author.yearBorn.toString(),
+        'year_dead': author.yearDead?.toString() ?? 'Actualidad',
+        'country': author.country,
+        'color': author.color,
+        'image': author.image,
       };
 }
 
-class SelectedConsoleItem extends SelectedDomainItem {
-  SelectedConsoleItem(this.console);
+class SelectedBookItem extends SelectedDomainItem {
+  SelectedBookItem(this.book);
 
-  final Console console;
-
-  @override
-  String get name => console.name;
+  final Book book;
 
   @override
-  String get image => console.image;
+  String get name => book.name;
+
+  @override
+  String get image => book.image;
 
   @override
   Map<String, String> get fields => {
-        'name': console.name,
-        'date': console.date,
-        'procesador': console.procesador,
-        'color': console.color,
-        'units_sold': console.unitsSold.toString(),
-        'image': console.image,
+        'name': book.name,
+        'year': book.year.toString(),
+        'author': book.author,
+        'plot': book.plot,
+        'color': book.color,
+        'image': book.image,
       };
 }
 
-class SelectedGameItem extends SelectedDomainItem {
-  SelectedGameItem(this.game);
+class SelectedNobelCountryItem extends SelectedDomainItem {
+  SelectedNobelCountryItem(this.country);
 
-  final Game game;
-
-  @override
-  String get name => game.name;
+  final NobelCountry country;
 
   @override
-  String get image => game.image;
+  String get name => country.name;
+
+  @override
+  String get image => country.image;
 
   @override
   Map<String, String> get fields => {
-        'name': game.name,
-        'year': game.year.toString(),
-        'type': game.type,
-        'plot': game.plot,
-        'image': game.image,
+        'name': country.name,
+        'amount': country.amount.toString(),
+        'winner_years': country.winnerYears,
+        'color': country.color,
+        'image': country.image,
       };
 }

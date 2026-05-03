@@ -6,12 +6,23 @@ const app = express();
 const PORT = 3000;
 
 const categoryFiles = {
-  characters: 'characters.json',
-  consoles: 'consoles.json',
-  games: 'games.json',
+  authors: 'authors.json',
+  books: 'books.json',
+  nobelCountries: 'nobel_country.json',
 };
 
 app.use(express.json());
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204);
+  }
+
+  return next();
+});
 
 app.post('/categorias', async (req, res) => {
   try {
@@ -20,7 +31,7 @@ app.post('/categorias', async (req, res) => {
 
     if (!fileName) {
       return res.status(400).json({
-        error: 'Categoría inválida. Usa: characters, consoles o games.',
+        error: 'Categoría inválida. Usa: authors, books o nobelCountries.',
       });
     }
 

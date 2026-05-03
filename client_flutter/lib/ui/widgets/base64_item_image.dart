@@ -29,6 +29,20 @@ class Base64ItemImage extends StatelessWidget {
     return FutureBuilder<Uint8List?>(
       future: service.loadImageBytes(imageName),
       builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return SizedBox(
+            width: width,
+            height: height,
+            child: const Center(
+              child: SizedBox(
+                width: 18,
+                height: 18,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+            ),
+          );
+        }
+
         final bytes = snapshot.data;
         if (bytes == null) {
           return SizedBox(

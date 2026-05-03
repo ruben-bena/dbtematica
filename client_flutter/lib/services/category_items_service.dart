@@ -3,33 +3,33 @@ import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
 
-import '../domain/models/character.dart';
-import '../domain/models/console.dart';
-import '../domain/models/game.dart';
+import '../domain/models/author.dart';
+import '../domain/models/book.dart';
+import '../domain/models/nobel_country.dart';
 import '../domain/models/selected_domain_item.dart';
 
-enum CategoryType { characters, consoles, games }
+enum CategoryType { authors, books, nobelCountries }
 
 extension CategoryTypeApi on CategoryType {
   String get apiValue {
     switch (this) {
-      case CategoryType.characters:
-        return 'characters';
-      case CategoryType.consoles:
-        return 'consoles';
-      case CategoryType.games:
-        return 'games';
+      case CategoryType.authors:
+        return 'authors';
+      case CategoryType.books:
+        return 'books';
+      case CategoryType.nobelCountries:
+        return 'nobelCountries';
     }
   }
 
   String get label {
     switch (this) {
-      case CategoryType.characters:
-        return 'characters';
-      case CategoryType.consoles:
-        return 'consoles';
-      case CategoryType.games:
-        return 'games';
+      case CategoryType.authors:
+        return 'Autores';
+      case CategoryType.books:
+        return 'Libros';
+      case CategoryType.nobelCountries:
+        return 'Países Nobel';
     }
   }
 }
@@ -61,21 +61,21 @@ class CategoryItemsService {
     }
 
     switch (category) {
-      case CategoryType.characters:
-        final characters = decoded
-            .map((item) => Character.fromJson(item as Map<String, dynamic>))
+      case CategoryType.authors:
+        final authors = decoded
+            .map((item) => Author.fromJson(item as Map<String, dynamic>))
             .toList();
-        return characters.map((character) => SelectedCharacterItem(character)).toList();
-      case CategoryType.consoles:
-        final consoles = decoded
-            .map((item) => Console.fromJson(item as Map<String, dynamic>))
+        return authors.map((author) => SelectedAuthorItem(author)).toList();
+      case CategoryType.books:
+        final books = decoded
+            .map((item) => Book.fromJson(item as Map<String, dynamic>))
             .toList();
-        return consoles.map((console) => SelectedConsoleItem(console)).toList();
-      case CategoryType.games:
-        final games = decoded
-            .map((item) => Game.fromJson(item as Map<String, dynamic>))
+        return books.map((book) => SelectedBookItem(book)).toList();
+      case CategoryType.nobelCountries:
+        final countries = decoded
+            .map((item) => NobelCountry.fromJson(item as Map<String, dynamic>))
             .toList();
-        return games.map((game) => SelectedGameItem(game)).toList();
+        return countries.map((country) => SelectedNobelCountryItem(country)).toList();
     }
   }
 

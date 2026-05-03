@@ -16,11 +16,14 @@ class DbTematicaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'DbTemática',
+      title: 'DbTemática literaria',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: Colors.deepPurple,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.indigo,
+          brightness: Brightness.dark,
+        ),
         useMaterial3: true,
       ),
       home: const MainSplitView(),
@@ -48,7 +51,7 @@ class _MainSplitViewState extends State<MainSplitView> {
   @override
   void initState() {
     super.initState();
-    _selectedCategory = CategoryType.characters;
+    _selectedCategory = CategoryType.authors;
     _itemsFuture = _service.loadItems(_selectedCategory);
   }
 
