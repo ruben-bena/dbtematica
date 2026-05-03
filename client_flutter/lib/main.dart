@@ -35,7 +35,7 @@ class MainSplitView extends StatefulWidget {
 }
 
 class _MainSplitViewState extends State<MainSplitView> {
-  static const CategoryItemsService _service = CategoryItemsService();
+  final CategoryItemsService _service = CategoryItemsService();
   static const _desktopOuterPadding = 24.0;
   static const _desktopPanelsGap = 24.0;
 
@@ -113,6 +113,7 @@ class _MainSplitViewState extends State<MainSplitView> {
           SizedBox(
             width: leftPanelWidth,
             child: LeftPanel(
+              service: _service,
               selectedCategory: _selectedCategory,
               itemsFuture: _itemsFuture,
               selectedItem: _selectedItem,
@@ -122,7 +123,10 @@ class _MainSplitViewState extends State<MainSplitView> {
           ),
           const SizedBox(width: _desktopPanelsGap),
           Expanded(
-            child: RightPanel(selectedItem: _selectedItem),
+            child: RightPanel(
+              service: _service,
+              selectedItem: _selectedItem,
+            ),
           ),
         ],
       ),
@@ -134,6 +138,7 @@ class _MainSplitViewState extends State<MainSplitView> {
       return Padding(
         padding: const EdgeInsets.all(16),
         child: LeftPanel(
+          service: _service,
           selectedCategory: _selectedCategory,
           itemsFuture: _itemsFuture,
           selectedItem: _selectedItem,
@@ -158,7 +163,10 @@ class _MainSplitViewState extends State<MainSplitView> {
           ),
           const SizedBox(height: 8),
           Expanded(
-            child: RightPanel(selectedItem: _selectedItem),
+            child: RightPanel(
+              service: _service,
+              selectedItem: _selectedItem,
+            ),
           ),
         ],
       ),

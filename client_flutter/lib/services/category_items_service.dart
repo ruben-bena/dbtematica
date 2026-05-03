@@ -1,6 +1,7 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
-import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 
 import '../domain/models/character.dart';
 import '../domain/models/console.dart';
@@ -9,51 +10,97 @@ import '../domain/models/selected_domain_item.dart';
 
 enum CategoryType { characters, consoles, games }
 
-class CategoryItemsService {
-  const CategoryItemsService();
-
-  Future<List<SelectedDomainItem>> loadItems(CategoryType category) async {
-    switch (category) {
+extension CategoryTypeApi on CategoryType {
+  String get apiValue {
+    switch (this) {
       case CategoryType.characters:
-        return _loadCharacters();
+        return 'characters';
       case CategoryType.consoles:
-        return _loadConsoles();
+        return 'consoles';
       case CategoryType.games:
-        return _loadGames();
+        return 'games';
     }
   }
 
-  Future<List<SelectedDomainItem>> _loadCharacters() async {
-    final jsonString = await rootBundle.loadString('assets/characters.json');
-    final rawList = json.decode(jsonString) as List<dynamic>;
-    final characters = rawList
-        .map((item) => Character.fromJson(item as Map<String, dynamic>))
-        .toList();
+  String get label {
+    switch (this) {
+      case CategoryType.characters:
+        return 'characters';
+      case CategoryType.consoles:
+        return 'consoles';
+      case CategoryType.games:
+        return 'games';
+    }
+  }
+}
 
-    return characters
-        .map((character) => SelectedCharacterItem(character))
-        .toList();
+class CategoryItemsService {
+  CategoryItemsService({http.Client? client, String? baseUrl})
+      : _client = client ?? http.Client(),
+        _baseUrl = baseUrl ?? const String.fromEnvironment('API_BASE_URL', defaultValue: 'http://localhost:3000');
+
+  final http.Client _client;
+  final String _baseUrl;
+  final Map<String, Future<Uint8List?>> _imageCache = {};
+
+  Future<List<SelectedDomainItem>> loadItems(CategoryType category) async {
+    final uri = Uri.parse('$_baseUrl/categorias');
+    final response = await _client.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'categoria': category.apiValue}),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Error cargando categoría ${category.apiValue}');
+    }
+
+    final decoded = jsonDecode(response.body);
+    if (decoded is! List<dynamic>) {
+      throw Exception('Formato de respuesta inválido para categoría ${category.apiValue}');
+    }
+
+    switch (category) {
+      case CategoryType.characters:
+        final characters = decoded
+            .map((item) => Character.fromJson(item as Map<String, dynamic>))
+            .toList();
+        return characters.map((character) => SelectedCharacterItem(character)).toList();
+      case CategoryType.consoles:
+        final consoles = decoded
+            .map((item) => Console.fromJson(item as Map<String, dynamic>))
+            .toList();
+        return consoles.map((console) => SelectedConsoleItem(console)).toList();
+      case CategoryType.games:
+        final games = decoded
+            .map((item) => Game.fromJson(item as Map<String, dynamic>))
+            .toList();
+        return games.map((game) => SelectedGameItem(game)).toList();
+    }
   }
 
-  Future<List<SelectedDomainItem>> _loadConsoles() async {
-    final jsonString = await rootBundle.loadString('assets/consoles.json');
-    final rawList = json.decode(jsonString) as List<dynamic>;
-    final consoles = rawList
-        .map((item) => Console.fromJson(item as Map<String, dynamic>))
-        .toList();
-
-    return consoles
-        .map((console) => SelectedConsoleItem(console))
-        .toList();
+  Future<Uint8List?> loadImageBytes(String imageName) {
+    return _imageCache.putIfAbsent(imageName, () => _loadImageBytes(imageName));
   }
 
-  Future<List<SelectedDomainItem>> _loadGames() async {
-    final jsonString = await rootBundle.loadString('assets/games.json');
-    final rawList = json.decode(jsonString) as List<dynamic>;
-    final games = rawList
-        .map((item) => Game.fromJson(item as Map<String, dynamic>))
-        .toList();
+  Future<Uint8List?> _loadImageBytes(String imageName) async {
+    final uri = Uri.parse('$_baseUrl/imagen').replace(queryParameters: {'nombre': imageName});
+    final response = await _client.get(uri);
 
-    return games.map((game) => SelectedGameItem(game)).toList();
+    if (response.statusCode != 200) {
+      return null;
+    }
+
+    final body = jsonDecode(response.body);
+    if (body is! Map<String, dynamic>) {
+      return null;
+    }
+
+    final base64String = body['base64'];
+    if (base64String is! String || base64String.isEmpty) {
+      return null;
+    }
+
+    return base64Decode(base64String);
   }
 }

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
 import '../../domain/models/selected_domain_item.dart';
+import '../../services/category_items_service.dart';
+import 'base64_item_image.dart';
 
 class RightPanel extends StatelessWidget {
   const RightPanel({
     super.key,
+    required this.service,
     required this.selectedItem,
   });
 
+  final CategoryItemsService service;
   final SelectedDomainItem? selectedItem;
 
   @override
@@ -23,15 +27,16 @@ class RightPanel extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleMedium,
               ),
             )
-          : _DetailContent(item: item),
+          : _DetailContent(item: item, service: service),
     );
   }
 }
 
 class _DetailContent extends StatelessWidget {
-  const _DetailContent({required this.item});
+  const _DetailContent({required this.item, required this.service});
 
   final SelectedDomainItem item;
+  final CategoryItemsService service;
 
   @override
   Widget build(BuildContext context) {
@@ -53,14 +58,15 @@ class _DetailContent extends StatelessWidget {
                   children: [
                     SizedBox(
                       height: 220,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.asset(
-                          'assets/images/${item.image}',
+                      child: Center(
+                        child: Base64ItemImage(
+                          imageName: item.image,
+                          service: service,
+                          width: 320,
+                          height: 220,
+                          borderRadius: 12,
                           fit: BoxFit.contain,
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Center(child: Icon(Icons.broken_image_outlined, size: 40));
-                          },
+                          errorIconSize: 40,
                         ),
                       ),
                     ),

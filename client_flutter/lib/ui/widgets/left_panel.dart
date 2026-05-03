@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../domain/models/selected_domain_item.dart';
 import '../../services/category_items_service.dart';
+import 'base64_item_image.dart';
 
 class LeftPanel extends StatelessWidget {
   const LeftPanel({
     super.key,
+    required this.service,
     required this.selectedCategory,
     required this.itemsFuture,
     required this.selectedItem,
@@ -13,6 +15,7 @@ class LeftPanel extends StatelessWidget {
     required this.onItemSelected,
   });
 
+  final CategoryItemsService service;
   final CategoryType selectedCategory;
   final Future<List<SelectedDomainItem>> itemsFuture;
   final SelectedDomainItem? selectedItem;
@@ -27,28 +30,9 @@ class LeftPanel extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            DropdownButton<CategoryType>(
-              value: selectedCategory,
-              isExpanded: true,
-              onChanged: (category) {
-                if (category != null) {
-                  onCategoryChanged(category);
-                }
-              },
-              items: const [
-                DropdownMenuItem(
-                  value: CategoryType.characters,
-                  child: Text('characters'),
-                ),
-                DropdownMenuItem(
-                  value: CategoryType.consoles,
-                  child: Text('consoles'),
-                ),
-                DropdownMenuItem(
-                  value: CategoryType.games,
-                  child: Text('games'),
-                ),
-              ],
+            _CategoryButtons(
+              selectedCategory: selectedCategory,
+              onCategoryChanged: onCategoryChanged,
             ),
             const SizedBox(height: 16),
             Expanded(
@@ -93,18 +77,12 @@ class LeftPanel extends StatelessWidget {
                         onTap: () => onItemSelected(item),
                         leading: ClipRRect(
                           borderRadius: BorderRadius.circular(6),
-                          child: Image.asset(
-                            'assets/images/${item.image}',
+                          child: Base64ItemImage(
+                            imageName: item.image,
+                            service: service,
                             width: 28,
                             height: 28,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const SizedBox(
-                                width: 28,
-                                height: 28,
-                                child: Icon(Icons.broken_image_outlined, size: 18),
-                              );
-                            },
                           ),
                         ),
                         title: Text(item.name),
@@ -117,6 +95,69 @@ class LeftPanel extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _CategoryButtons extends StatelessWidget {
+  const _CategoryButtons({
+    required this.selectedCategory,
+    required this.onCategoryChanged,
+  });
+
+  final CategoryType selectedCategory;
+  final ValueChanged<CategoryType> onCategoryChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _CategoryButton(
+          text: CategoryType.characters.label,
+          selected: selectedCategory == CategoryType.characters,
+          onPressed: () => onCategoryChanged(CategoryType.characters),
+        ),
+        const SizedBox(height: 8),
+        _CategoryButton(
+          text: CategoryType.consoles.label,
+          selected: selectedCategory == CategoryType.consoles,
+          onPressed: () => onCategoryChanged(CategoryType.consoles),
+        ),
+        const SizedBox(height: 8),
+        _CategoryButton(
+          text: CategoryType.games.label,
+          selected: selectedCategory == CategoryType.games,
+          onPressed: () => onCategoryChanged(CategoryType.games),
+        ),
+      ],
+    );
+  }
+}
+
+class _CategoryButton extends StatelessWidget {
+  const _CategoryButton({
+    required this.text,
+    required this.selected,
+    required this.onPressed,
+  });
+
+  final String text;
+  final bool selected;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    if (selected) {
+      return FilledButton(
+        onPressed: onPressed,
+        child: Text(text),
+      );
+    }
+
+    return OutlinedButton(
+      onPressed: onPressed,
+      child: Text(text),
     );
   }
 }
