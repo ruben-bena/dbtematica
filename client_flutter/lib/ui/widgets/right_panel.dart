@@ -4,7 +4,9 @@ import '../../domain/models/selected_domain_item.dart';
 import '../../services/category_items_service.dart';
 import 'base64_item_image.dart';
 
+/// Panel derecho: muestra placeholder o detalle del elemento seleccionado.
 class RightPanel extends StatelessWidget {
+  /// Crea el panel de detalle y recibe el elemento actualmente seleccionado.
   const RightPanel({
     super.key,
     required this.service,
@@ -15,6 +17,7 @@ class RightPanel extends StatelessWidget {
   final SelectedDomainItem? selectedItem;
 
   @override
+  /// Construye el detalle o una guía de selección cuando no hay elemento activo.
   Widget build(BuildContext context) {
     final item = selectedItem;
 
@@ -32,13 +35,16 @@ class RightPanel extends StatelessWidget {
   }
 }
 
+/// Contenido detallado para cualquier tipo de elemento seleccionado.
 class _DetailContent extends StatelessWidget {
+  /// Crea el bloque de detalle con acceso a datos e imágenes.
   const _DetailContent({required this.item, required this.service});
 
   final SelectedDomainItem item;
   final CategoryItemsService service;
 
   @override
+  /// Construye un layout centrado y desplazable con imagen + metadatos por tipo.
   Widget build(BuildContext context) {
     final detailTextStyle = Theme.of(context).textTheme.titleMedium;
     final plotTextStyle = Theme.of(context).textTheme.bodyMedium;
@@ -47,6 +53,7 @@ class _DetailContent extends StatelessWidget {
       builder: (context, constraints) {
         return SingleChildScrollView(
           child: ConstrainedBox(
+            // Mantiene altura mínima para centrar visualmente en pantallas altas.
             constraints: BoxConstraints(minHeight: constraints.maxHeight),
             child: Center(
               child: Padding(
@@ -79,6 +86,7 @@ class _DetailContent extends StatelessWidget {
                           ),
                     ),
                     const SizedBox(height: 16),
+                    // Selecciona qué bloque de detalle pintar según el subtipo.
                     if (item is SelectedBookItem) ...[
                       ..._buildBookDetails(item as SelectedBookItem, detailTextStyle, plotTextStyle),
                     ] else if (item is SelectedNobelCountryItem) ...[
@@ -100,11 +108,13 @@ class _DetailContent extends StatelessWidget {
     );
   }
 
+  /// Formatea el rango de vida del autor gestionando el caso de autor vivo.
   String _formatLifetime(SelectedAuthorItem item) {
     final endYear = item.author.yearDead?.toString() ?? 'actualidad';
     return '${item.author.yearBorn} - $endYear';
   }
 
+  /// Construye los widgets de detalle específicos para libros.
   List<Widget> _buildBookDetails(
     SelectedBookItem item,
     TextStyle? detailTextStyle,
@@ -125,6 +135,7 @@ class _DetailContent extends StatelessWidget {
     ];
   }
 
+  /// Construye los widgets de detalle específicos para países Nobel.
   List<Widget> _buildCountryDetails(
     SelectedNobelCountryItem item,
     TextStyle? detailTextStyle,
@@ -147,6 +158,7 @@ class _DetailContent extends StatelessWidget {
     ];
   }
 
+  /// Construye los widgets de detalle específicos para autores.
   List<Widget> _buildAuthorDetails(
     SelectedAuthorItem item,
     TextStyle? detailTextStyle,
@@ -161,7 +173,9 @@ class _DetailContent extends StatelessWidget {
   }
 }
 
+/// Texto de detalle con formato uniforme `Etiqueta: valor`.
 class _DetailText extends StatelessWidget {
+  /// Crea una línea de información del panel de detalle.
   const _DetailText({
     required this.label,
     required this.value,
@@ -173,6 +187,7 @@ class _DetailText extends StatelessWidget {
   final TextStyle? style;
 
   @override
+  /// Renderiza texto centrado para mantener consistencia visual.
   Widget build(BuildContext context) {
     return Text(
       '$label: $value',
@@ -182,12 +197,15 @@ class _DetailText extends StatelessWidget {
   }
 }
 
+/// Muestra un círculo coloreado a partir del nombre textual del color.
 class _ColorBadge extends StatelessWidget {
+  /// Crea la insignia de color para el atributo cromático del elemento.
   const _ColorBadge({required this.colorName});
 
   final String colorName;
 
   @override
+  /// Dibuja un contenedor circular relleno con el color parseado.
   Widget build(BuildContext context) {
     return Container(
       width: 34,
@@ -200,7 +218,9 @@ class _ColorBadge extends StatelessWidget {
     );
   }
 
+  /// Convierte un nombre de color (API) en una instancia concreta de `Color`.
   Color _parseColor(String value) {
+    // Soporta nombres estándar y algunos tonos definidos manualmente.
     switch (value.toLowerCase()) {
       case 'blue':
         return Colors.blue;
@@ -246,8 +266,8 @@ class _ColorBadge extends StatelessWidget {
       case 'purple':
         return Colors.purple;
       default:
+        // Fallback seguro para valores desconocidos.
         return Colors.blueGrey;
     }
   }
-
 }

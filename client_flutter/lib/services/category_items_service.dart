@@ -8,9 +8,11 @@ import '../domain/models/book.dart';
 import '../domain/models/nobel_country.dart';
 import '../domain/models/selected_domain_item.dart';
 
+/// Categorías disponibles para consultar en la API y mostrar en UI.
 enum CategoryType { authors, books, nobelCountries }
 
 extension CategoryTypeApi on CategoryType {
+  /// Devuelve el literal que espera el backend para la categoría seleccionada.
   String get apiValue {
     switch (this) {
       case CategoryType.authors:
@@ -22,6 +24,7 @@ extension CategoryTypeApi on CategoryType {
     }
   }
 
+  /// Devuelve la etiqueta legible que se muestra en botones de la UI.
   String get label {
     switch (this) {
       case CategoryType.authors:
@@ -35,6 +38,7 @@ extension CategoryTypeApi on CategoryType {
 }
 
 class CategoryItemsService {
+  /// Crea el servicio HTTP y fija la URL base (inyectable para tests/entornos).
   CategoryItemsService({http.Client? client, String? baseUrl})
       : _client = client ?? http.Client(),
         _baseUrl = baseUrl ?? const String.fromEnvironment('API_BASE_URL', defaultValue: 'http://localhost:3000');
@@ -43,6 +47,7 @@ class CategoryItemsService {
   final String _baseUrl;
   final Map<String, Future<Uint8List?>> _imageCache = {};
 
+  /// Carga elementos de una categoría y los transforma al tipo de dominio seleccionable.
   Future<List<SelectedDomainItem>> loadItems(CategoryType category) async {
     final uri = Uri.parse('$_baseUrl/categorias');
     final response = await _client.post(
@@ -60,6 +65,7 @@ class CategoryItemsService {
       throw Exception('Formato de respuesta inválido para categoría ${category.apiValue}');
     }
 
+    // Cada categoría se parsea con su modelo específico y luego se adapta a `SelectedDomainItem`.
     switch (category) {
       case CategoryType.authors:
         final authors = decoded
@@ -79,10 +85,12 @@ class CategoryItemsService {
     }
   }
 
+  /// Obtiene bytes de imagen reutilizando caché por nombre para evitar peticiones repetidas.
   Future<Uint8List?> loadImageBytes(String imageName) {
     return _imageCache.putIfAbsent(imageName, () => _loadImageBytes(imageName));
   }
 
+  /// Descarga una imagen en base64 desde la API y la decodifica a bytes renderizables.
   Future<Uint8List?> _loadImageBytes(String imageName) async {
     final uri = Uri.parse('$_baseUrl/imagen').replace(queryParameters: {'nombre': imageName});
     final response = await _client.get(uri);
@@ -101,6 +109,7 @@ class CategoryItemsService {
       return null;
     }
 
+    // Convierte la cadena base64 en bytes para `Image.memory`.
     return base64Decode(base64String);
   }
 }
